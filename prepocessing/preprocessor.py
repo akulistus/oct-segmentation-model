@@ -1,45 +1,48 @@
 import cv2
 import numpy as np
+from skimage.util import img_as_float
+from skimage.restoration import estimate_sigma
+from bm3d import bm3d, BM3DStages
 
 class Preprocessor:
     def __init__(self):
-        pass    
-    def remove_pepper_salt_noise(image, max_window_size):
-        if max_window_size % 2 == 0:
-            raise ValueError("max_window_size must be odd")
+        pass
 
-        padded_image = np.pad(image, max_window_size // 2, mode='constant', constant_values=0)
-        output_image = image.copy()
+    def prepare(self, image):
+        gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        normalized_image = img_as_float(gray_image)
+        denoised_image = self.remove_noise(normalized_image)
+        edges = self.detect_edges(denoised_image)
+        return edges
 
-        rows, cols = image.shape
+    def remove_noise(self, image):
+        sigma = np.mean(estimate_sigma(image, average_sigmas=True)) * 10
+        denoised_image = bm3d(image, sigma_psd=sigma, stage_arg=BM3DStages.ALL_STAGES)
+        return denoised_image
 
-        for row in range(rows):
-            for col in range(cols):
-                window_size = 3
+    def detect_edges(self, image):
+        image = (image * 255).astype('uint8')
+        return cv2.Canny(image, 50, 100, L2gradient=False)
+    
+    def resize_image(self, image):
+        pass
 
-                while window_size <= max_window_size:
-                    local_region = padded_image[row:row + window_size, col:col+window_size]
+    def smooth_image(self, image):
+        image_medianBlur = cv2.medianBlur(image, 17)
+        image_gauss = cv2.GaussianBlur(image_medianBlur, (5,5),0)
+        return image_gauss
+    
+    def convert_to_gray(self, image):
+        return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    
+    def enhance_sharpness(self, image):
+        return cv2.Sobel(image, cv2.CV_16S, 0, 1, ksize=5)
 
-                    Z_min = np.min(local_region)
-                    Z_max = np.max(local_region)
-                    Z_med = np.median(local_region)
-                    Z_xy = image[row, col]
+    def sobel(self, image):
+        return cv2.Laplacian(image, -1, ksize=7)
 
-                    A1 = Z_med - Z_min
-                    A2 = Z_med - Z_max
+    def threshold(self, image):
+        return cv2.threshold(image, 200, 255, cv2.THRESH_OTSU)
 
-                    if A1 > 0 and A2 < 0:
-                        B1 = Z_xy - Z_min
-                        B2 = Z_xy - Z_max
-                        if B1 > 0 and B2 < 0:
-                            output_image[row, col] = Z_xy
-                        else:
-                            output_image[row, col] = Z_med
-                        break
-                    else:
-                        window_size += 2 
-
-                if window_size > max_window_size:
-                    output_image[row, col] = Z_med
-
-        return output_image
+    def get_bounding_box(self, image):
+        pass

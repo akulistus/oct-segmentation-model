@@ -1,21 +1,22 @@
 import cv2
 import numpy as np
-from skimage.util import img_as_float
-from skimage.restoration import estimate_sigma
-from bm3d import bm3d, BM3DStages
+import matplotlib.pyplot as plt
+from preprocessor import Preprocessor
 
-test_image = "./data/test_image2.jpeg"
+test_image = "./data/test_image9.jpeg"
 image = cv2.imread(test_image)
 
-gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-normalized_image = img_as_float(gray_image)
+prep = Preprocessor()
 
-sigma_psd = np.mean(estimate_sigma(normalized_image)) * 10
-denoised_image = bm3d(normalized_image, sigma_psd=sigma_psd, stage_arg=BM3DStages.ALL_STAGES)
+converted_image = prep.convert_to_gray(image)
+filtered_image = prep.smooth_image(converted_image)
+sobel_image = prep.sobel(filtered_image)
+# sharpend_image = prep.enhance_sharpness(filtered_image)
+ret2, binary = prep.threshold(sobel_image)
+# plt.hist(filtered_image.ravel(), bins=256, range=(0, 256))
+# plt.show()
 
-denoised_image = (denoised_image * 255).astype('uint8')
-
-cv2.imshow("Denoised Image", denoised_image)
-# cv2.imwrite("test.jpeg", denoised_image)
+cv2.imshow("Denoised Image", binary)
+# # cv2.imwrite("test.jpeg", denoised_image)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
