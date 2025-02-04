@@ -19,30 +19,35 @@ class Preprocessor:
         sigma = np.mean(estimate_sigma(image, average_sigmas=True)) * 10
         denoised_image = bm3d(image, sigma_psd=sigma, stage_arg=BM3DStages.ALL_STAGES)
         return denoised_image
-
-    def detect_edges(self, image):
-        image = (image * 255).astype('uint8')
-        return cv2.Canny(image, 50, 100, L2gradient=False)
     
     def resize_image(self, image):
         pass
 
     def smooth_image(self, image):
-        image_medianBlur = cv2.medianBlur(image, 17)
-        image_gauss = cv2.GaussianBlur(image_medianBlur, (5,5),0)
-        return image_gauss
+        image_medianBlur = cv2.medianBlur(image, 21)
+        image_medianBlur = cv2.bilateralFilter(image_medianBlur, 11, 200, 200)
+        return image_medianBlur
     
     def convert_to_gray(self, image):
         return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    
-    def enhance_sharpness(self, image):
-        return cv2.Sobel(image, cv2.CV_16S, 0, 1, ksize=5)
 
     def sobel(self, image):
-        return cv2.Laplacian(image, -1, ksize=7)
+        return cv2.Sobel(image, -1, 0, 1, ksize=5)
 
     def threshold(self, image):
-        return cv2.threshold(image, 200, 255, cv2.THRESH_OTSU)
-
+        return cv2.threshold(image, 100, 255, cv2.THRESH_BINARY)
+    
     def get_bounding_box(self, image):
         pass
+
+    def morph_open(self, image, element):
+        binary = cv2.morphologyEx(image, cv2.MORPH_OPEN, element)
+        return binary
+    
+    def morph_close(self, image, element):
+        binary = cv2.morphologyEx(image, cv2.MORPH_CLOSE, element)
+        return binary
+        
+    def find_contours(self, image):
+        contours, hierarchy = cv2.findContours(image, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+        return contours, hierarchy
