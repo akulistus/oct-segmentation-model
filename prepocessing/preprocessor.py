@@ -22,9 +22,9 @@ class Preprocessor:
     
     def resize_image(self, image, contours):
         x, y, w, h = cv2.boundingRect(np.vstack(contours))
-        cropped = image[y:y+h, x:x+w]
+        cropped = image[y:y+h + 30, x + 10:x+w]
         resized = cv2.resize(cropped, (200, 200))
-        return resized
+        return cropped
 
     def get_contours(self, image):
         contours, hierarchy = cv2.findContours(image, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)

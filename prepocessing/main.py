@@ -4,7 +4,7 @@ import os
 import matplotlib.pyplot as plt
 from preprocessor import Preprocessor
 
-dir = "./experiments"
+dir = "../Diploma/Dataset/oct2017/OCT2017_/train/NORMAL"
 # image = cv2.imread("./data/test_image10.jpeg")
 prep = Preprocessor()
 files = os.listdir(dir)
@@ -19,9 +19,9 @@ for file in files:
     binary = prep.morph_close(binary, element)
     contours = prep.get_contours(binary)
     resized = prep.resize_image(image, contours)
-    denoised_image = prep.remove_noise(resized)
+    # denoised_image = prep.remove_noise(resized)
 
-    cv2.imwrite(f"result/{file}", denoised_image)
+    cv2.imwrite(f"result/{file}", resized)
 # # cv2.imshow("Denoised Image", image)
 # # cv2.waitKey(0)
 # cv2.destroyAllWindows()
