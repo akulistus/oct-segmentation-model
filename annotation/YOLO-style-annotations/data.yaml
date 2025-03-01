@@ -7,7 +7,7 @@ names: ['retinal_drusen']
 
 roboflow:
   workspace: oct-n0q8r
-  project: my-first-project-fk08k
+  project: my-first-project-mpyyl
   version: 2
   license: CC BY 4.0
-  url: https://universe.roboflow.com/oct-n0q8r/my-first-project-fk08k/dataset/2
+  url: https://universe.roboflow.com/oct-n0q8r/my-first-project-mpyyl/dataset/2
