@@ -2,12 +2,12 @@ train: ../train/images
 val: ../valid/images
 test: ../test/images
 
-nc: 6
-names: ['intraretinal_cyst', 'lamellar_macular_rupture', 'retinal_drusen', 'subretinal_fluid', 'vitreomacular_traction', 'vitreous_detachment']
+nc: 8
+names: ['intraretinal_cyst', 'lamellar_macular_rupture', 'neuroepithelium_detachment', 'retinal_drusen', 'subretinal_fluid', 'subretinal_hyperreflective_material', 'vitreomacular_traction', 'vitreous_detachment']
 
 roboflow:
   workspace: oct-n0q8r
-  project: my-first-project-tqld8
+  project: my-first-project-ov1ie
   version: 2
   license: CC BY 4.0
-  url: https://universe.roboflow.com/oct-n0q8r/my-first-project-tqld8/dataset/2
+  url: https://universe.roboflow.com/oct-n0q8r/my-first-project-ov1ie/dataset/2
