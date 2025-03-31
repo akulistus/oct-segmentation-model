@@ -7,7 +7,7 @@ names: ['intraretinal_cyst', 'lamellar_macular_rupture', 'neuroepithelium_detach
 
 roboflow:
   workspace: oct-n0q8r
-  project: my-first-project-ov1ie
-  version: 5
+  project: my-first-project-veqaf
+  version: 2
   license: CC BY 4.0
-  url: https://universe.roboflow.com/oct-n0q8r/my-first-project-ov1ie/dataset/5
+  url: https://universe.roboflow.com/oct-n0q8r/my-first-project-veqaf/dataset/2
