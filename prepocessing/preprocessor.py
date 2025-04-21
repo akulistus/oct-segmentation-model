@@ -55,7 +55,7 @@ class Preprocessor:
         return image_medianBlur
     
     def convert_to_gray(self, image):
-        return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        return cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
 
     def sobel(self, image):
         return cv2.Sobel(image, -1, 0, 1, ksize=5)
