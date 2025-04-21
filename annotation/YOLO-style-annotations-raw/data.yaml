@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 8
+names: ['intraretinal_cyst', 'lamellar_macular_rupture', 'neuroepithelium_detachment', 'retinal_drusen', 'subretinal_fluid', 'subretinal_hyperreflective_material', 'vitreomacular_traction', 'vitreous_detachment']
+
+roboflow:
+  workspace: oct-n0q8r
+  project: my-first-project-veqaf
+  version: 3
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/oct-n0q8r/my-first-project-veqaf/dataset/3
