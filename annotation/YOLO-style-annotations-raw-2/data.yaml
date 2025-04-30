@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 7
+names: ['intraretinal_cyst', 'lamellar_macular_rupture', 'neuroepithelium_detachment', 'retinal_drusen', 'subretinal_hyperreflective_material', 'vitreomacular_traction', 'vitreous_detachment']
+
+roboflow:
+  workspace: oct-n0q8r
+  project: merged-7yj2y
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/oct-n0q8r/merged-7yj2y/dataset/1
